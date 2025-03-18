@@ -1,7 +1,6 @@
 # Ignorer l'environnement virtuel
 venv/
 env/
-.env
 *.pyc
 *.pyo
 __pycache__/
@@ -25,9 +24,9 @@ migrations/
 config.py
 config.yaml
 
-# Ignorer les fichiers de dépendances (si pip freeze est utilisé)
+# Ignorer les fichiers de dépendances 
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Ignorer les dossiers backend spécifiques (exemple si besoin)
+# Ignorer les dossiers backend spécifiques 
 backend/venv/
