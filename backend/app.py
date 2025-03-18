@@ -36,10 +36,10 @@ jwt = JWTManager(app)  # ✅ Initialisation correcte du JWT
 socketio = init_socketio(app)
 
 # 📌 Enregistrement des routes
-app.register_blueprint(auth, url_prefix="/api/auth")  
+app.register_blueprint(auth, url_prefix="/api/auth")
 app.register_blueprint(music, url_prefix="/api")
 app.register_blueprint(room_bp, url_prefix="/api")
-app.register_blueprint(game_bp, url_prefix="/api")  
+app.register_blueprint(game_bp, url_prefix="/api/game")
 
 # 📌 Page d'accueil simple (pour test)
 @app.route('/')
