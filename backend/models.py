@@ -1,7 +1,7 @@
 from datetime import datetime
 from extensions import db, bcrypt
 
-# 📌 Modèle User : Stocke les joueurs inscrits
+#  Modèle User : Stocke les joueurs inscrits
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False, unique=True)
@@ -30,7 +30,7 @@ class User(db.Model):
         return f"<User {self.username} ({self.email})>"
 
 
-# 📌 Modèle Room : Stocke les salles de jeu
+
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
@@ -63,15 +63,19 @@ class Room(db.Model):
         return f"<Room {self.name} - {self.genre} - {self.active_users} joueurs>"
 
 
-# 📌 Modèle Game : Stocke la partie en cours
+
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
     current_song = db.Column(db.String(200), nullable=True)
     question_type = db.Column(db.String(50), nullable=True)
     time_left = db.Column(db.Integer, default=30)
+    finished_at = db.Column(db.DateTime, nullable=True)
+    winner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     status = db.Column(db.String(20), default="waiting")
     started_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    winner = db.relationship("User", foreign_keys=[winner_id])
 
     def __init__(self, room_id, status="waiting"):
         self.room_id = room_id
@@ -99,3 +103,41 @@ class Score(db.Model):
 
     def __repr__(self):
         return f"<Score {self.score} - User {self.user_id} - Game {self.game_id}>"
+
+
+# Modèle pour les statistiques globales
+class UserStats(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
+    total_games = db.Column(db.Integer, default=0)
+    total_correct = db.Column(db.Integer, default=0)
+    total_points = db.Column(db.Integer, default=0)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    user = db.relationship("User", backref=db.backref("stats", uselist=False))
+    
+    def __repr__(self):
+        return f"<UserStats {self.user_id} - {self.total_points} points>"
+    
+    
+
+class Badge(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    icon = db.Column(db.String(255), nullable=False)
+    
+    def __repr__(self):
+        return f"<Badge {self.name}>"
+
+class UserBadge(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    badge_id = db.Column(db.Integer, db.ForeignKey('badge.id'), nullable=False)
+    earned_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    user = db.relationship("User", backref=db.backref("badges", lazy=True))
+    badge = db.relationship("Badge")
+    
+    def __repr__(self):
+        return f"<UserBadge {self.user_id} - {self.badge_id}>"

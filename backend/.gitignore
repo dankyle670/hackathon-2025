@@ -1,0 +1,32 @@
+# Ignorer l'environnement virtuel
+venv/
+env/
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignorer les fichiers spécifiques à l'IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignorer les fichiers de log et caches
+*.log
+*.sqlite3
+instance/
+*.db
+migrations/
+
+# Ignorer les fichiers de configuration sensibles
+.env
+*.secret
+config.py
+config.yaml
+
+# Ignorer les fichiers de dépendances (si pip freeze est utilisé)
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignorer les dossiers backend spécifiques (exemple si besoin)
+backend/venv/

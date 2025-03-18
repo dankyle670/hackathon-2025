@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
 from flask_socketio import emit, join_room
 from extensions import db, socketio
-from models import Game, Score, User, Room
+from models import Game, Score, User, Room, UserStats
 from spotify_service import get_random_track
+from socket_manager import socketio, update_leaderboard
 import eventlet
+from datetime import datetime  # Ajout de l'import manquant
 
 game_bp = Blueprint("game", __name__)
 
@@ -29,21 +31,20 @@ def start_game():
 
     print(f"🎮 Nouvelle partie créée dans la room {room.name}")
 
-    # ✅ Lancer immédiatement un round
     eventlet.spawn(start_round, new_game.id, room_id)
 
     return jsonify({"message": "Partie démarrée", "game_id": new_game.id})
 
 
-# 📌 Démarrer un round
+
 def start_round(game_id, room_id):
     game = Game.query.get(game_id)
     if not game:
         return
 
-    track = get_random_track()  # Récupérer une musique aléatoire
+    track = get_random_track()  
     if not track:
-        emit("error", {"error": "Impossible de récupérer un morceau"}, room=room_id)
+        socketio.emit("error", {"error": "Impossible de récupérer un morceau"}, room=room_id)
         return
 
     # Sauvegarde du morceau actuel dans la partie
@@ -71,12 +72,22 @@ def end_round(game_id, room_id):
 
     print(f"🔚 Fin du round pour la room {room_id}")
 
-    # Vérifier si un gagnant a été trouvé
     winner = check_winner(game.id)
     if winner:
+        game.status = "finished"
+        game.finished_at = datetime.utcnow()
+        game.winner_id = winner.id
+        db.session.commit()
+        
+        winner_stats = UserStats.query.filter_by(user_id=winner.id).first()
+        if winner_stats:
+            winner_stats.total_games += 1
+            db.session.commit()
+        
         socketio.emit("game_over", {
             "winner": winner.username,
-            "score": winner.score
+            "score": winner.score,  # Erreur - winner n'a pas d'attribut score
+            "leaderboard_url": f"/api/classement_game/{game.id}"
         }, room=room_id)
         return
 
@@ -90,7 +101,7 @@ def check_winner(game_id):
         return User.query.get(scores[0].user_id)
     return None
 
-# 📌 Gestion des réponses des joueurs via SocketIO
+# Dans game_routes.py, modifiez la fonction handle_submit_answer
 @socketio.on("submit_answer")
 def handle_submit_answer(data):
     room_id = data.get("room_id")
@@ -115,6 +126,16 @@ def handle_submit_answer(data):
             score = Score(user_id=user.id, game_id=game.id, score=0)
             db.session.add(score)
         score.score += 10
+        
+        # Mise à jour des statistiques globales
+        user_stats = UserStats.query.filter_by(user_id=user.id).first()
+        if not user_stats:
+            user_stats = UserStats(user_id=user.id)
+            db.session.add(user_stats)
+        
+        user_stats.total_correct += 1
+        user_stats.total_points += 10
+        
         db.session.commit()
         print(f"✅ {username} a trouvé la bonne réponse ! +10 points")
     else:
@@ -125,10 +146,7 @@ def handle_submit_answer(data):
     score_data = [{"username": User.query.get(s.user_id).username, "score": s.score} for s in scores]
 
     socketio.emit("update_scores", {"scores": score_data}, room=room_id)
-
-# 📌 Enregistrer le blueprint
-def init_game_routes(app):
-    app.register_blueprint(game_bp)
+    update_leaderboard(room_id)  
 
 # 📌 Forcer la fin d'une partie
 @game_bp.route("/game/force_end", methods=["POST"])
@@ -189,5 +207,3 @@ def join_game():
         "room_name": room.name,
         "current_song": game.current_song
     })
-
-
