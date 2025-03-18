@@ -1,0 +1,44 @@
+.create-room-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  width: 250px;
+  color: white;
+  box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.5);
+}
+
+.create-room-alert h3 {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.create-room-alert form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-room-alert input {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+}
+
+.create-room-alert button {
+  background: #ff00ff;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.create-room-alert button:hover {
+  background: #cc00cc;
+}

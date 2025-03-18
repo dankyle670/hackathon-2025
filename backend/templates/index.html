@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat en temps réel</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    #messages {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      height: 200px; /* Ajustez la hauteur selon vos besoins */
+      overflow-y: scroll; /* Ajoute une barre de défilement si nécessaire */
+    }
+  </style>
+</head>
+<body>
+  <h1>Bienvenue dans le chat</h1>
+
+  <form id="join-form">
+    <label for="username">Nom d'utilisateur:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="room">Salle:</label>
+    <input type="text" id="room" name="room" required><br><br>
+
+    <button type="submit">Rejoindre la salle</button>
+  </form>
+
+  <div id="chat-area" style="display: none;">
+    <h2>Salle: <span id="room-name"></span></h2>
+    <div id="messages"></div>
+
+    <form id="message-form">
+      <input type="text" id="message" name="message" required>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const joinForm = document.getElementById('join-form');
+    const chatArea = document.getElementById('chat-area');
+    const roomName = document.getElementById('room-name');
+    const messagesDiv = document.getElementById('messages');
+    const messageForm = document.getElementById('message-form');
+
+    socket.on('connect', () => {
+      console.log('Connecté au serveur WebSocket');
+    });
+
+    socket.on('join_confirmation', (data) => {
+      console.log('Confirmation de la salle:', data);
+      joinForm.style.display = 'none';
+      chatArea.style.display = 'block';
+      roomName.textContent = data.room;
+    });
+
+    socket.on('join_error', (error) => {
+      console.error('Erreur de la salle:', error);
+      alert(error.error); // Affiche l'erreur à l'utilisateur
+    });
+
+    socket.on('new_message', (message) => {
+      displayMessage(message);
+    });
+
+    joinForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const room = document.getElementById('room').value;
+
+      socket.emit('join_room', { username, room });
+    });
+
+    messageForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = document.getElementById('message').value;
+      socket.emit('send_message', message); // Envoie le message au serveur
+      document.getElementById('message').value = ''; // Vide le champ de message
+    });
+
+    function displayMessage(message) {
+      const messageDiv = document.createElement('div');
+      messageDiv.textContent = message;
+      messagesDiv.appendChild(messageDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; // Défile vers le bas pour afficher les nouveaux messages
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+/* 🎵 CONTAINER PRINCIPAL */
+.home-container {
+  text-align: center;
+  color: white;
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 🌟 INTRODUCTION */
+.intro-section {
+  margin-bottom: 40px;
+}
+
+.game-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ff00ff;
+  margin-bottom: 10px;
+}
+
+.game-title span {
+  color: white;
+}
+
+.game-description {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+/* 🎮 BOUTONS */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.primary-btn {
+  background: #ff00ff;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #cc00cc;
+}
+
+.secondary-btn {
+  background: #555;
+  color: white;
+}
+
+.secondary-btn:hover {
+  background: #777;
+}
+
+/* 📜 RÈGLES */
+.rules-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.rules-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #ff00ff;
+}
+
+.rules-list {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+}
+
+.rules-list li {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.rules-list li::before {
+  content: "✅";
+  margin-right: 10px;
+}
+
+.bonus-info {
+  font-style: italic;
+  margin-top: 10px;
+  color: #ffcc00;
+}
+
+/* 🔥 CALL-TO-ACTION FINAL */
+.final-cta {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
