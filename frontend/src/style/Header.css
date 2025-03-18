@@ -1,0 +1,92 @@
+/* 🌟 HEADER PRINCIPAL */
+.header {
+  width: 100%;
+  max-width: 100vw;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: black;
+  padding: 0 20px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* 🎵 LOGO */
+.logo {
+  font-size: 1.5rem;
+  color: #ff00ff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* 🏆 NAVIGATION LINKS */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+  color: #ff00ff;
+}
+
+/* 🍔 MENU BURGER (Mobile) */
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* 📱 RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      height: auto;
+      padding: 10px 20px;
+  }
+
+  /* Cacher la navigation et afficher le menu burger */
+  .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      width: 200px;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+  }
+
+  .nav-links.open {
+      display: flex;
+  }
+
+  .nav-links a {
+      padding: 10px 0;
+      font-size: 1rem;
+  }
+
+  /* Bouton Menu */
+  .menu-toggle {
+      display: block;
+  }
+}
