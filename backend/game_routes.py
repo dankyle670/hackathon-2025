@@ -187,7 +187,7 @@ def join_game():
 
     # 🔹 Vérifie si une chanson est en cours et envoie l'info au joueur
     if game.current_song:
-        socketio.emit("new_round", {
+        socketio.emit("ne   w_round", {
             "song_title": game.current_song,
             "question": "Quel est le titre de cette chanson ?"
         }, room=user.id)
