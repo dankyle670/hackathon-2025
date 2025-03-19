@@ -1,7 +1,5 @@
 import os
-import eventletpi
-eventlet.monkey_patch()  
-
+ 
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -13,7 +11,7 @@ from music_routes import music
 from socket_manager import init_socketio
 from room_routes import room_bp
 from leaderboard_routes import leaderboard_bp
-from game_routes import game_bp  # ✅ Importer les routes du jeu
+from game_routes import game_bp  
 
 # 📌 Charger les variables d'environnement
 load_dotenv()
@@ -40,8 +38,9 @@ socketio = init_socketio(app)
 app.register_blueprint(auth, url_prefix="/api/auth")  
 app.register_blueprint(music, url_prefix="/api")
 app.register_blueprint(room_bp, url_prefix="/api")
-app.register_blueprint(game_bp, url_prefix="/api")
-app.register_blueprint(leaderboard_bp, url_prefix="/api")  
+app.register_blueprint(leaderboard_bp, url_prefix="/api")
+# Supprimer l'enregistrement en double, conserver seulement celui avec le préfixe correct
+app.register_blueprint(game_bp, url_prefix="/api/game")  
 
 # 📌 Page d'accueil retourne maintenant un JSON pour l'API
 @app.route('/')

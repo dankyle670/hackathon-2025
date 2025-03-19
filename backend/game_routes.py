@@ -4,20 +4,120 @@ from extensions import db, socketio
 from models import Game, Score, User, Room, UserStats
 from spotify_service import get_random_track
 from socket_manager import socketio, update_leaderboard
+import os
+import openai
 import eventlet
 from datetime import datetime  # Ajout de l'import manquant
 
+
+# Initialize OpenAI client
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 game_bp = Blueprint("game", __name__)
+
+# Define available topics, subtopics, and European countries
+topics = {
+    "Science": ["Physics", "Biology", "Chemistry", "Astronomy"],
+    "History": ["World War I", "World War II", "Ancient Civilizations", "Modern History"],
+    "Geography": [],  # No subtopics, quiz will be about Geography + country
+    "Technology": ["Artificial Intelligence", "Programming", "Cybersecurity"],
+    "Sports": [],  # No subtopics, quiz will be about Sports + country
+    "Music": ["Classical", "Pop", "Rock", "Jazz"]
+}
+EUROPEAN_COUNTRIES = [
+    "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic",
+    "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary",
+    "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands",
+    "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"
+]
+
+
+ # Route to get list of topics
+@game_bp.route("/topics", methods=["GET"])
+def get_topics():
+    return jsonify({"topics": list(topics.keys())})
+
+
+# Route to get subtopics for a selected topic
+@game_bp.route("/subtopics", methods=["POST"])
+def get_subtopics():
+    data = request.get_json()
+    selected_topic = data.get("topic")
+    
+    if not selected_topic or selected_topic not in topics:
+        return jsonify({"error": "Invalid topic"}), 400 
+    return jsonify({"subtopics": topics[selected_topic]})
+
+# Route to get list of available European countries
+@game_bp.route("/countries", methods=["GET"])
+def get_european_countries():
+    return jsonify({"countries": EUROPEAN_COUNTRIES})
+
+# Function to generate a quiz question
+def generate_question(topic, subtopic, country):
+    prompt = f"Create a multiple-choice quiz question about {topic} in {country}. "
+    if subtopic:
+        prompt += f"Specifically, focus on {subtopic}. "
+    prompt += "Provide 4 answer choices labeled A, B, C, and D. Clearly indicate the correct answer at the end."
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a quiz generator that creates country-specific questions."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"⚠️ Error generating question: {e}")
+        return None
+
+# Route to generate a quiz question
+@game_bp.route("/generate_question", methods=["POST"])
+def generate_question_route():
+    data = request.get_json()
+    topic = data.get("topic")
+    subtopic = data.get("subtopic", "")
+    country = data.get("country")
+
+    if topic not in topics:
+        return jsonify({"error": "Invalid topic"}), 400
+    if not subtopic and topics[topic]:
+        return jsonify({"error": "Subtopic is required for this topic"}), 400
+    if country not in EUROPEAN_COUNTRIES:
+        return jsonify({"error": "Invalid country"}), 400
+
+    question = generate_question(topic, subtopic, country)
+    if question:
+        return jsonify({"question": question})
+    else:
+        return jsonify({"error": "Failed to generate a question"}), 500
+
+# Route to start a new quiz game
+@game_bp.route("/start", methods=["POST"])
 
 # 📌 Démarrer une partie dans une room
 @game_bp.route("/game/start", methods=["POST"])
 def start_game():
     data = request.get_json()
     room_id = data.get("room_id")
+    
+    topic = data.get("topic")
+    subtopic = data.get("subtopic", "")
+    country = data.get("country")
+
+    if topic not in topics:
+        return jsonify({"error": "Invalid topic"}), 400
+    if not topics[topic]:
+        subtopic = ""
+    if country not in EUROPEAN_COUNTRIES:
+        return jsonify({"error": "Invalid country"}), 400
 
     room = Room.query.get(room_id)
     if not room:
         return jsonify({"error": "Room introuvable"}), 404
+        return jsonify({"error": "Room not found"}), 404
 
     # Vérifier si une partie est déjà en cours
     existing_game = Game.query.filter_by(room_id=room_id, status="playing").first()
@@ -31,13 +131,13 @@ def start_game():
 
     print(f"🎮 Nouvelle partie créée dans la room {room.name}")
 
-    eventlet.spawn(start_round, new_game.id, room_id)
+    eventlet.spawn(start_round, new_game.id, room_id, topic, subtopic, country)
 
     return jsonify({"message": "Partie démarrée", "game_id": new_game.id})
 
 
 
-def start_round(game_id, room_id):
+def start_round(game_id, room_id, topic, subtopic, country):
     game = Game.query.get(game_id)
     if not game:
         return
@@ -46,7 +146,6 @@ def start_round(game_id, room_id):
     if not track:
         socketio.emit("error", {"error": "Impossible de récupérer un morceau"}, room=room_id)
         return
-
     # Sauvegarde du morceau actuel dans la partie
     game.current_song = track["title"]
     db.session.commit()
@@ -65,7 +164,7 @@ def start_round(game_id, room_id):
     eventlet.spawn_after(30, end_round, game.id, room_id)
 
 # 📌 Fin d'un round
-def end_round(game_id, room_id):
+def end_round(game_id, room_id, topic, subtopic, country):
     game = Game.query.get(game_id)
     if not game or game.status != "playing":
         return
@@ -92,7 +191,7 @@ def end_round(game_id, room_id):
         return
 
     # Démarrer un nouveau round
-    start_round(game.id, room_id)
+    start_round(game.id, room_id, topic, subtopic, country)
 
 # 📌 Vérifier si un joueur a gagné (100 points)
 def check_winner(game_id):
@@ -102,8 +201,9 @@ def check_winner(game_id):
     return None
 
 # Dans game_routes.py, modifiez la fonction handle_submit_answer
-@socketio.on("submit_answer")
-def handle_submit_answer(data):
+@game_bp.route("/submit_answer", methods=["POST"])
+def submit_answer():
+    data = request.get_json()
     room_id = data.get("room_id")
     username = data.get("username")
     answer = data.get("answer")
@@ -112,11 +212,13 @@ def handle_submit_answer(data):
     if not user:
         emit("error", {"error": "Utilisateur introuvable"}, room=room_id)
         return
+        return jsonify({"error": "User not found"}), 404
 
     game = Game.query.filter_by(room_id=room_id, status="playing").first()
     if not game:
         emit("error", {"error": "Aucune partie en cours"}, room=room_id)
         return
+        return jsonify({"error": "No active game"}), 400
 
     # Vérification de la réponse
     correct = answer.lower() == game.current_song.lower()
@@ -207,3 +309,7 @@ def join_game():
         "room_name": room.name,
         "current_song": game.current_song
     })
+    
+    
+def init_game_routes(app):
+    app.register_blueprint(game_bp, url_prefix="/api/game")
