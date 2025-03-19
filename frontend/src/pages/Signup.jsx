@@ -6,24 +6,28 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [age, setAge] = useState(""); // State for age
+  const [nationality, setNationality] = useState(""); // State for nationality
   const { register } = useContext(AuthContext);
 
   const handleSignup = (e) => {
     e.preventDefault();
-    register(username, email, password);
+    // Include age and nationality in the registration function
+    register(username, email, password, age, nationality);
   };
 
   return (
     <div className="signup-container">
-      <h2>📝 Inscription</h2>
+      <h2>📝 Sign Up</h2>
       <form onSubmit={handleSignup}>
         <input
           type="text"
-          placeholder="Nom d'utilisateur"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+        
         <input
           type="email"
           placeholder="Email"
@@ -33,12 +37,26 @@ const Signup = () => {
         />
         <input
           type="password"
-          placeholder="Mot de passe"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Créer un compte</button>
+        <input
+          type="number"
+          placeholder="Age"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Nationality"
+          value={nationality}
+          onChange={(e) => setNationality(e.target.value)}
+          required
+        />
+        <button type="submit">Create Account</button>
       </form>
     </div>
   );

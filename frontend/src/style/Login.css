@@ -1,56 +1,62 @@
-.login-container {
-    text-align: center;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .login-container h2 {
-    font-size: 28px;
-    color: white;
-    margin-bottom: 20px;
-  }
-  
-  .login-container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 350px;
-  }
-  
-  .login-container input {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    text-align: center;
-  }
-  
-  .login-container input:focus {
-    border-color: #ff00ff;
-    outline: none;
-    box-shadow: 0px 0px 10px #ff00ff;
-  }
-  
-  .login-container button {
-    background: #ff00ff;
-    color: white;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    width: 100%;
-  }
-  
-  .login-container button:hover {
-    background: #cc00cc;
-    box-shadow: 0px 0px 15px #ff00ff;
-  }
-  
+/* 🟦 LOGIN CONTAINER */
+.signup-container {
+  background: url("../assets/2-eme-photo.png") no-repeat center center;
+  background-size: cover; /* Couvre toute la zone sans déformation */
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🔑 TITRE LOGIN */
+.signup-container h2 {
+  position: absolute;
+  top: 100px; /* Ajuste la position du titre en haut */
+  left: 50%;
+  transform: translateX(-50%);
+  color: #e6e0e0;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+/* 📝 FORMULAIRE */
+.signup-container form {
+  background-color: rgba(255, 255, 255, 0.9); /* Fond légèrement plus opaque */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  width: 80%;
+  max-width: 350px;
+}
+
+/* 🔷 INPUTS */
+.signup-container input {
+  display: block;
+  width: 90%;
+  max-width: 400px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+}
+
+/* 🔵 BOUTON LOGIN */
+.signup-container button {
+  background-color: #007bff;
+  color: rgb(12, 12, 12);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-container button:hover {
+  background-color: #0056b3;
+}

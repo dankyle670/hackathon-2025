@@ -9,7 +9,7 @@ const Header = () => {
     <header className="header">
       {/* Logo cliquable qui ramène à l'accueil */}
       <Link to="/" className="logo" onClick={() => setMenuOpen(false)}>
-        🎵 <span>BeatGuess</span>
+        🎵 <span>EuroMatch</span>
       </Link>
 
       {/* Bouton du menu burger pour mobile */}

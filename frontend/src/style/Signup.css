@@ -1,28 +1,58 @@
 .signup-container {
-    text-align: center;
-    padding: 30px;
-  }
-  
-  .signup-container form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: auto;
-  }
-  
-  .signup-container input {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: none;
-  }
-  
-  .signup-container button {
-    background: #ff00ff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
+  /* Ajout de l'image en arrière-plan */
+  background: url("../assets/2-eme-photo.png") no-repeat center center;
+  background-size: cover; /* Couvre toute la zone sans déformation */
+  background-position: center; /* Centrer l'image */
+  background-repeat: no-repeat; /* Empêcher la répétition de l'image */
+  width: 100%; /* S'assurer que le conteneur prend toute la largeur de l'écran */
+  height: 100vh; /* S'assurer que le conteneur couvre toute la hauteur de l'écran */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  position: absolute;
+  top: 100px; /* Ajuste la position du titre en haut */
+  left: 50%;
+  transform: translateX(-50%);
+  color: #e6e0e0;
+  font-size: 3rem; /* Augmente la taille du texte */
+  font-weight: bold; /* Rend le titre plus visible */
+}
+
+form {
+  background-color: rgba(255, 255, 255, 0.9); /* Fond légèrement plus opaque */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column; /* Aligne les éléments verticalement */
+  align-items: center;
+  gap: 25px; /* Augmente l'espacement entre chaque input */
+  width: 80%; /* Réduit la largeur du formulaire */
+  max-width: 350px; /* Formulaire plus étroit */
+}
+
+input {
+  display: block;
+  width: 90%; /* Laisse un peu d'espace sur les côtés */
+  max-width: 400px; /* Évite que l'input soit trop large sur grand écran */
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #000000; /* Bordure noire */
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #007bff;
+  color: rgb(12, 12, 12);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

@@ -30,7 +30,7 @@
 }
 
 .create-room-alert button {
-  background: #ff00ff;
+  background: #FBDC01;
   color: white;
   border: none;
   padding: 8px;
@@ -40,5 +40,5 @@
 }
 
 .create-room-alert button:hover {
-  background: #cc00cc;
+  background: #FBDC01;
 }

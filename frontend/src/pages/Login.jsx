@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import "../style/Login.css";
+import "../style/Signup.css"; // Appliquer le style de Signup à Login
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,17 +17,17 @@ const Login = () => {
 
     try {
       await login(email, password);
-      console.log("Token stocké après login:", localStorage.getItem("token")); // Ajout crucial
+      console.log("Token stored after login:", localStorage.getItem("token"));
     } catch (error) {
-      setErrorMessage("⚠️ Identifiants incorrects. Veuillez réessayer.");
+      setErrorMessage("⚠️ Incorrect credentials. Please try again.");
     }
 
     setLoading(false); 
   };
 
   return (
-    <div className="login-container">
-      <h2>🔒 Connexion</h2>
+    <div className="signup-container"> {/* Utilisation du même conteneur que dans Signup */}
+      <h2>🔒 Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="email"
@@ -38,14 +38,14 @@ const Login = () => {
         />
         <input
           type="password"
-          placeholder="Mot de passe"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* ✅ Affiche l'erreur */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit" disabled={loading}>
-          {loading ? "Connexion en cours..." : "Se connecter"}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

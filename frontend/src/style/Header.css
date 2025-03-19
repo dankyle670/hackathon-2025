@@ -18,7 +18,7 @@
 /* 🎵 LOGO */
 .logo {
   font-size: 1.5rem;
-  color: #ff00ff;
+  color: #FBDC01;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -39,7 +39,7 @@
 }
 
 .nav-links a:hover {
-  color: #ff00ff;
+  color: #FBDC01;
 }
 
 /* 🍔 MENU BURGER (Mobile) */

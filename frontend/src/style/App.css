@@ -1,6 +1,6 @@
 /* 🎨 Styles globaux */
 body {
-  background: linear-gradient(135deg, #0a0a1a, #001f3f);
+  background-color:#044B9F;;
   color: #ffffff;
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -28,36 +28,39 @@ h1 {
 
 /* 📌 Liens et navigation */
 a {
-  color: #ff00ff;
+  color: #FBDC01;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #ff66ff;
+  color: #FBDC01;
 }
 
 /* 🎭 Boutons */
 button {
-  background-color: #ff00ff;
+  background-color: #008CBA;
   border: none;
-  color: white;
+  color: rgb(21, 20, 20);
   padding: 12px 20px;
   font-size: 1rem;
   cursor: pointer;
   border-radius: 8px;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 255, 0.3); /* Ombre bleue au lieu de violette */
 }
 
 button:hover {
-  background-color: #ff66ff;
+  background-color: #FBDC01;
+  box-shadow: 0px 6px 12px rgba(0, 0, 255, 0.5); /* Ombre plus prononcée */
 }
+
 
 /* 📌 Input fields */
 input {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  color: rgb(8, 8, 8);
   padding: 10px;
   font-size: 1rem;
   border-radius: 6px;
@@ -65,7 +68,7 @@ input {
 }
 
 input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(9, 9, 9);
 }
 
 /* 📌 Grille de mise en page */
@@ -84,4 +87,9 @@ input::placeholder {
 
 .fade-in {
   animation: fadeIn 0.5s ease-out;
+}
+input:-webkit-autofill {
+  background-color: #e80b0b !important; /* Remplace la couleur par défaut */
+  color: #000 !important; /* Couleur du texte */
+  box-shadow: 0 0 0px 1000px #ffffff inset !important; /* Cache complètement l'effet */
 }
