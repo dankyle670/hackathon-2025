@@ -3,6 +3,7 @@ from flask import request
 from extensions import db
 from models import Room, User, Game, Score
 from sqlalchemy import func, desc
+from flask_cors import CORS
 import eventlet
 
 socketio = SocketIO()
@@ -13,7 +14,7 @@ active_rooms = {}
 def init_socketio(app):
     global socketio
     # Mise à jour pour permettre les connexions depuis le frontend React (multiples origines)
-    socketio.init_app(app, cors_allowed_origins=["http://localhost:3000", "http://localhost:5173", "https://DanielExample.com"], path="socket.io")
+    socketio.init_app(app, cors_allowed_origins="*", path="/socket.io")
 
     @socketio.on("connect")
     def handle_connect():

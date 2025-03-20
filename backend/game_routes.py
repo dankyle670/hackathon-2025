@@ -32,7 +32,7 @@ EUROPEAN_COUNTRIES = [
 ]
 
 
- # Route to get list of topics
+ 
 @game_bp.route("/topics", methods=["GET"])
 def get_topics():
     return jsonify({"topics": list(topics.keys())})
@@ -70,7 +70,7 @@ def generate_question(topic, subtopic, country):
         )
         return response.choices[0].message.content
     except Exception as e:
-        print(f"⚠️ Error generating question: {e}")
+        print(f" Error generating question: {e}")
         return None
 
 # Route to generate a quiz question
@@ -94,50 +94,40 @@ def generate_question_route():
     else:
         return jsonify({"error": "Failed to generate a question"}), 500
 
-# Route to start a new quiz game
+#  Démarrer une partie dans une room
 @game_bp.route("/start", methods=["POST"])
-
-# 📌 Démarrer une partie dans une room
-@game_bp.route("/game/start", methods=["POST"])
 def start_game():
     data = request.get_json()
-    print("📥 Requête reçue pour démarrer une partie:", data)  # Debug
-
-    if not data:
-        print("❌ Erreur : Aucune donnée reçue.")
-        return jsonify({"error": "Données manquantes"}), 400
+    print("📥 Requête reçue pour démarrer une partie:", data)
 
     room_id = data.get("room_id")
     topic = data.get("topic")
     subtopic = data.get("subtopic", "")
     country = data.get("country")
 
+    # Log pour vérifier les données
+    print(f"➡️ room_id: {room_id}, topic: {topic}, subtopic: {subtopic}, country: {country}")
+
     if not room_id or not topic or not country:
         print("❌ Erreur : Données obligatoires manquantes.")
         return jsonify({"error": "Données obligatoires manquantes"}), 400
 
-    # Vérifier si la room existe
     room = Room.query.get(room_id)
     if not room:
-        print(f"❌ Erreur : Room avec ID {room_id} introuvable.")
         return jsonify({"error": "Room introuvable"}), 404
 
-    # Vérifier si une partie est déjà en cours
     existing_game = Game.query.filter_by(room_id=room_id, status="playing").first()
     if existing_game:
-        print("❌ Erreur : Une partie est déjà en cours dans cette salle.")
         return jsonify({"error": "Une partie est déjà en cours"}), 400
 
-    # Création d'une nouvelle partie
     new_game = Game(room_id=room_id, status="playing")
     db.session.add(new_game)
     db.session.commit()
 
-    print(f"✅ Nouvelle partie créée dans la room {room.name}")
-
     eventlet.spawn(start_round, new_game.id, room_id, topic, subtopic, country)
 
     return jsonify({"message": "Partie démarrée", "game_id": new_game.id})
+
 
 
 
@@ -255,7 +245,7 @@ def submit_answer():
     update_leaderboard(room_id)  
 
 # 📌 Forcer la fin d'une partie
-@game_bp.route("/game/force_end", methods=["POST"])
+@game_bp.route("/force_end", methods=["POST"])
 def force_end_game():
     data = request.get_json()
     room_id = data.get("room_id")
@@ -271,7 +261,7 @@ def force_end_game():
     return jsonify({"message": "La partie a été terminée manuellement."})
 
 # 📌 Rejoindre une partie depuis une room
-@game_bp.route("/game/join", methods=["POST"])
+@game_bp.route("/join", methods=["POST"])
 def join_game():
     data = request.get_json()
     user_id = data.get("user_id")

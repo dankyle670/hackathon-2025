@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { roomService, gameService, initSocket } from '../services/Api';
 import { Trophy, MessageCircle, Home, Play, Music, Pause, Volume2, VolumeX } from 'lucide-react';
+
+
 
 interface Player {
   id: string;
@@ -193,21 +196,19 @@ export const Room: React.FC = () => {
     }
   };
 
+  const Navigate = useNavigate();
   const handleStartGame = async () => {
-    console.log("📤 Envoi des données au backend:", {
-      room_id: id,
-      topic: gameSettings.topic,
-      subtopic: gameSettings.subtopic,
-      country: gameSettings.country
-    });
-  
     try {
       const response = await gameService.startGame(id!, gameSettings.topic, gameSettings.subtopic, gameSettings.country);
       console.log("✅ Réponse du backend:", response.data);
+  
+      // 🔄 Redirection vers la page du jeu
+      Navigate(`/game/${id}`);
     } catch (error: any) {
       console.error("❌ Erreur lors du démarrage:", error.response?.data || error.message);
     }
-  };
+  }
+
   
 
   const handleAnswerSubmit = async () => {
@@ -311,14 +312,6 @@ export const Room: React.FC = () => {
                 >
                   <Play size={16} />
                   Start Game
-                </button>
-                
-                <button 
-                  className="flex items-center gap-2 bg-[#FFCC00] text-[#003399] py-2 px-4 rounded-lg hover:bg-[#FFD633] transition-colors"
-                  onClick={handleJoinGame}
-                >
-                  <Music size={16} />
-                  Join Game
                 </button>
               </div>
             </div>

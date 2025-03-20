@@ -63,6 +63,8 @@ export const authService = {
 
 export const gameService = {
   getTopics: () => api.get('/game/topics'),
+  // Correction ici: utiliser api au lieu de axios et corriger le chemin
+  getGameStatus: (roomId: string) => api.get(`/game_status/${roomId}`),
   getSubtopics: (topic: string) => api.post('/game/subtopics', { topic }),
   getCountries: () => api.get('/game/countries'),
   generateQuestion: (topic: string, subtopic: string, country: string) => 

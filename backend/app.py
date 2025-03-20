@@ -15,15 +15,25 @@ from game_routes import game_bp
 # Variables d'environnement
 load_dotenv()
 
-# 📌 Initialisation de l'application Flask
+# Initialisation de l'application Flask
 app = Flask(__name__)
 app.config.from_object(Config)  # ✅ Utiliser Config
 
-# ✅ Vérifier que la durée du token est bien définie
+# Vérifier que la durée du token est bien définie
 print(f"🕒 Durée du token JWT : {app.config['JWT_ACCESS_TOKEN_EXPIRES']}")
 
-# ✅ Active CORS pour autoriser les requêtes du frontend React
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "http://localhost:5173", "https://yourdomain.com"]}})
+#  Active CORS pour autoriser les requêtes du frontend React
+CORS(app, supports_credentials=True, resources={r"/*": {
+    "origins": ["*"],
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization"]
+}})
+
+# ✅ Ajoute une route OPTIONS pour gérer les preflight requests
+@app.route("/api/<path:path>", methods=["OPTIONS"])
+def options_handler(path):
+    return jsonify({"message": "Preflight OK"}), 200
+
 
 #  Initialisation des extensions
 db.init_app(app)
