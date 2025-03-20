@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getRoom, startGame } from '../api/api';
+import { getRoom, startGame, sendMessage, getMessages } from '../api/api';
 import { AuthContext } from '../context/AuthContext';
 import '../style/Room.css';
 
@@ -13,6 +13,8 @@ function Room() {
   const [selectedGenre, setSelectedGenre] = useState('');
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
     if (!user || !token) {
@@ -21,8 +23,8 @@ function Room() {
       navigate('/login');
       return;
     }
-
     fetchRoomData();
+    fetchMessages();
   }, []);
 
   const fetchRoomData = async () => {
@@ -47,6 +49,27 @@ function Room() {
       setLoading(false);
       alert('Room introuvable !');
       navigate('/rooms');
+    }
+  };
+
+  const fetchMessages = async () => {
+    try {
+      const response = await getMessages(id);
+      setMessages(response.data);
+    } catch (error) {
+      console.error('❌ Erreur lors du chargement des messages :', error);
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return;
+
+    try {
+      await sendMessage(id, { user: user.name, text: newMessage });
+      setMessages([...messages, { user: user.name, text: newMessage }]);
+      setNewMessage('');
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'envoi du message :', error);
     }
   };
 
@@ -89,6 +112,24 @@ function Room() {
           <button className="start-game" onClick={handleStartGame}>
             ▶ Commencer à jouer
           </button>
+
+          <div className="chat-section">
+            <h3>💬 Chat en Partie</h3>
+            <div className="chat-box">
+              {messages.map((msg, index) => (
+                <p key={index} className="chat-message"><strong>{msg.user}:</strong> {msg.text}</p>
+              ))}
+            </div>
+            <div className="chat-input">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Écrire un message..."
+              />
+              <button onClick={handleSendMessage}>Envoyer</button>
+            </div>
+          </div>
         </>
       ) : (
         <p>Room introuvable...</p>

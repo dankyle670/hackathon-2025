@@ -1,23 +1,29 @@
+/* 📌 Conteneur principal */
 .profile-container {
   text-align: center;
   color: white;
   padding: 20px;
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Bannière compacte et stylisée */
+/* 📌 Bannière */
 .profile-banner {
   width: 100%;
-  max-width: 320px;
-  height: 80px;
-  margin: 0 auto;
+  max-width: 360px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   transition: background-color 0.3s ease, border-radius 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Formes de la bannière */
+/* 🎨 Formes de la bannière */
 .profile-banner.rounded {
   border-radius: 20px;
 }
@@ -26,57 +32,101 @@
   border-radius: 5px;
 }
 
-/* Avatar */
+/* 📌 Avatar */
 .avatar-container {
   position: absolute;
-  left: 10px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid white;
+  border: 3px solid white;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Nom d'utilisateur */
+/* 🌟 Effet au survol de l'avatar */
+.avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.3);
+}
+
+/* 📌 Nom d'utilisateur */
 .username {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  margin-left: 80px; /* Décalage pour ne pas chevaucher l'avatar */
 }
 
-/* Options de personnalisation */
+/* 📌 Options de personnalisation */
 .profile-settings {
-  margin-top: 15px;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 20px;
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Choix de couleur */
+/* 📌 Options disposées en colonnes */
+.setting-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+/* Effet au survol */
+.setting-option:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Labels */
+.setting-option label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* 🎨 Choix de couleur */
 .color-picker {
   border: none;
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   background: none;
+  transition: transform 0.3s ease;
 }
 
-/* Stylisation améliorée du dropdown */
+/* Effet au survol */
+.color-picker:hover {
+  transform: scale(1.1);
+}
+
+/* 📌 Dropdown stylisé */
 .styled-dropdown {
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  border: 2px solid #6A4BBC; /* Couleur plus douce */
-  background: rgba(255, 255, 255, 0.1); /* Fond semi-transparent */
+  padding: 8px 14px;
+  font-size: 1rem;
+  border: 2px solid #6A4BBC;
+  background: rgba(255, 255, 255, 0.1);
   color: white;
   border-radius: 8px;
   outline: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  width: 120px;
+  text-align: center;
 }
 
 /* Effet au survol */
@@ -84,19 +134,82 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Effet au focus (quand on clique) */
-.styled-dropdown:focus {
-  background: rgba(255, 255, 255, 0.3);
+/* 📌 Bio */
+.bio-container {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 15px;
 }
 
-/* Adapter le texte sélectionné */
-.styled-dropdown option {
-  background: black;
+.bio-input {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
   color: white;
+  resize: none;
+  outline: none;
+  transition: border 0.3s ease, background 0.3s ease;
 }
 
+/* 🌟 Effet au focus */
+.bio-input:focus {
+  border: 2px solid #6A4BBC;
+  background: rgba(255, 255, 255, 0.2);
+}
 
-/* Informations utilisateur */
+/* 📌 Informations utilisateur */
 .profile-info {
-  margin-top: 20px;
+  margin-top: 25px;
+  width: 100%;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+}
+
+/* 📌 Email et autres infos */
+.profile-info p {
+  font-size: 1rem;
+  margin: 8px 0;
+  opacity: 0.9;
+}
+
+/* 📌 Responsive */
+@media (max-width: 450px) {
+  .profile-container {
+    padding: 15px;
+  }
+
+  .profile-banner {
+    max-width: 320px;
+    height: 100px;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .username {
+    font-size: 1.4rem;
+    margin-left: 70px;
+  }
+
+  .styled-dropdown,
+  .bio-input {
+    font-size: 0.9rem;
+  }
+
+  .profile-settings,
+  .bio-container,
+  .profile-info {
+    max-width: 320px;
+  }
 }

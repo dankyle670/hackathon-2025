@@ -1,44 +1,134 @@
+/* Style général de la Room */
 .room-container {
     text-align: center;
-    color: white;
+    background-color: #333;
+    color: yellow;
     padding: 20px;
-  }
-  
-  .genres-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    color: yellow;
+}
+
+/* Styles des genres musicaux */
+.genres-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
     justify-content: center;
-    margin: 20px 0;
-  }
-  
-  .genre-button {
-    padding: 10px 15px;
-    background: #ff00ff;
-    color: white;
+    padding: 20px;
+}
+
+.genre-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background: yellow;
+    color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
     cursor: pointer;
     transition: 0.3s;
-  }
-  
-  .genre-button:hover, .genre-button.selected {
-    background: #cc00cc;
-  }
-  
-  .start-game {
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.genre-button:hover, .genre-button.selected {
+    background: orange;
+}
+
+/* Bouton de démarrage de jeu */
+.start-game {
     padding: 12px 20px;
-    background: #ff00ff;
-    color: white;
+    background: yellow;
+    color: black;
     border: none;
     border-radius: 8px;
     font-size: 1.2rem;
     cursor: pointer;
     margin-top: 20px;
     transition: 0.3s;
-  }
-  
-  .start-game:hover {
-    background: #cc00cc;
-  }
-  
+}
+
+.start-game:hover {
+    background: orange;
+}
+
+/* Section du chat */
+.chat-section {
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+    background: #222;
+    border-radius: 10px;
+}
+
+.chat-box {
+    background: #111;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    height: 150px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid yellow;
+}
+
+.chat-message {
+    text-align: left;
+    padding: 5px 10px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.chat-input input {
+    width: 70%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #444;
+    color: white;
+    border: 1px solid yellow;
+}
+
+.chat-input button {
+    padding: 8px 15px;
+    background: yellow;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.chat-input button:hover {
+    background: orange;
+}
+
+/* Bouton de suppression de la Room */
+.delete-room {
+    padding: 12px 20px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.delete-room:hover {
+    background: darkred;
+}

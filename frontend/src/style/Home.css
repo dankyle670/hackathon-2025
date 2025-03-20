@@ -1,10 +1,15 @@
-/* 🎵 CONTAINER PRINCIPAL */
+/* 🌍 CONTAINER PRINCIPAL */
 .home-container {
   text-align: center;
   color: white;
   padding: 60px 20px;
   max-width: 800px;
   margin: 0 auto;
+  background-color: #004494;
+  background-image: url('https://cdn.discordapp.com/attachments/1347498761148174408/1351209484638359592/Braun_Verspielt_Natur_Auszeit_Smartphone_Video.png?ex=67db85a5&is=67da3425&hm=49787659de412c753ebee09474b9b217bb02fd049494dbc3e5e4131a24f6e37e&');
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
 }
 
 /* 🌟 INTRODUCTION */
@@ -15,7 +20,7 @@
 .game-title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #ff00ff;
+  color: #e6b800;
   margin-bottom: 10px;
 }
 
@@ -48,21 +53,21 @@
 }
 
 .primary-btn {
-  background: #ff00ff;
-  color: white;
+  background: #e6b800;
+  color: #004494;
 }
 
 .primary-btn:hover {
-  background: #cc00cc;
+  background: #c4a000;
 }
 
 .secondary-btn {
-  background: #555;
-  color: white;
+  background: #ffffff;
+  color: #004494;
 }
 
 .secondary-btn:hover {
-  background: #777;
+  background: #e0e0e0;
 }
 
 /* 📜 RÈGLES */
@@ -76,7 +81,7 @@
 .rules-section h2 {
   font-size: 1.8rem;
   margin-bottom: 15px;
-  color: #ff00ff;
+  color: #e6b800;
 }
 
 .rules-list {
@@ -100,7 +105,7 @@
 .bonus-info {
   font-style: italic;
   margin-top: 10px;
-  color: #ffcc00;
+  color: #e6b800;
 }
 
 /* 🔥 CALL-TO-ACTION FINAL */

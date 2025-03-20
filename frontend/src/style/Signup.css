@@ -1,28 +1,42 @@
 .signup-container {
-    text-align: center;
-    padding: 30px;
-  }
-  
-  .signup-container form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: auto;
-  }
-  
-  .signup-container input {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: none;
-  }
-  
-  .signup-container button {
-    background: #ff00ff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
+  /* Ajout de l'image en arrière-plan */
+  background-image: url('https://cdn.discordapp.com/attachments/1347498761148174408/1351576384115576923/Capture_decran_2025-03-18_a_16.21.32.png?ex=67dae119&is=67d98f99&hm=e2136c7544929d9b00986afcb3182e8da7d104c0374058ee84c8d31ebc504827');
+  background-size: cover; /* Couvrir toute la zone */
+  background-position: center; /* Centrer l'image */
+  background-repeat: no-repeat; /* Empêcher la répétition de l'image */
+  padding: 20px; /* Ajouter un peu d'espace autour du contenu */
+  height: 100vh; /* S'assurer que le conteneur couvre toute la hauteur de l'écran */
+}
+
+h2 {
+  text-align: center;
+  color: #fff; /* Texte blanc pour contraster avec l'image de fond */
+}
+
+form {
+  background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent pour que l'image soit visible derrière */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

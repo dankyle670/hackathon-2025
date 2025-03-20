@@ -17,9 +17,9 @@ const Login = () => {
 
     try {
       await login(email, password);
-      console.log("Token stocké après login:", localStorage.getItem("token")); // Ajout crucial
+      console.log("Token stored after login:", localStorage.getItem("token")); // Important log
     } catch (error) {
-      setErrorMessage("⚠️ Identifiants incorrects. Veuillez réessayer.");
+      setErrorMessage("⚠️ Incorrect credentials. Please try again.");
     }
 
     setLoading(false); 
@@ -27,7 +27,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>🔒 Connexion</h2>
+      <h2>🔒 Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="email"
@@ -38,14 +38,14 @@ const Login = () => {
         />
         <input
           type="password"
-          placeholder="Mot de passe"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* ✅ Affiche l'erreur */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* ✅ Displays error */}
         <button type="submit" disabled={loading}>
-          {loading ? "Connexion en cours..." : "Se connecter"}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

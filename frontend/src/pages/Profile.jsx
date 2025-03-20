@@ -1,15 +1,43 @@
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../context/AuthContext"; // ✅ Utilisation du contexte
+import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import "../style/Profile.css";
 
 function Profile() {
-  const { token } = useContext(AuthContext); // ✅ Récupère le token et l'utilisateur
+  const { token } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [bio, setBio] = useState(""); // ✅ État pour la bio
+  const [avatar, setAvatar] = useState(null);
   const [bannerColor, setBannerColor] = useState("#6A4BBC");
   const [bannerShape, setBannerShape] = useState("rounded");
-  const [avatar, setAvatar] = useState(null);
+  const [language, setLanguage] = useState("fr"); // ✅ Langue par défaut : Français
+
+  // 📌 Traductions disponibles
+  const translations = {
+    fr: {
+      title: "Profil",
+      bioPlaceholder: "Ajoutez une brève description...",
+      uploadAvatar: "Changer de photo",
+      email: "Email",
+      color: "Couleur",
+      shape: "Forme",
+      rounded: "Arrondi",
+      square: "Carré",
+      language: "Langue",
+    },
+    en: {
+      title: "Profile",
+      bioPlaceholder: "Add a short description...",
+      uploadAvatar: "Change Photo",
+      email: "Email",
+      color: "Color",
+      shape: "Shape",
+      rounded: "Rounded",
+      square: "Square",
+      language: "Language",
+    },
+  };
 
   // 📌 Charger les informations du profil utilisateur
   useEffect(() => {
@@ -21,6 +49,7 @@ function Profile() {
         .then((res) => {
           setUsername(res.data.username);
           setEmail(res.data.email);
+          setBio(res.data.bio || ""); // Charger la bio
         })
         .catch((error) => {
           console.error("⚠️ Erreur lors de la récupération du profil :", error);
@@ -34,16 +63,6 @@ function Profile() {
     if (file) {
       setAvatar(URL.createObjectURL(file));
     }
-  };
-
-  // 📌 Changer la couleur de la bannière
-  const handleColorChange = (e) => {
-    setBannerColor(e.target.value);
-  };
-
-  // 📌 Changer la forme de la bannière
-  const handleShapeChange = (e) => {
-    setBannerShape(e.target.value);
   };
 
   return (
@@ -72,34 +91,53 @@ function Profile() {
         <span className="username">{username || "Utilisateur"}</span>
       </div>
 
+      {/* Informations utilisateur */}
+      <div className="profile-info">
+        <h2>👤 {translations[language].title}</h2>
+        <p>📧 {translations[language].email}: {email || "Non disponible"}</p>
+        
+        {/* ✅ Champ de biographie */}
+        <textarea
+          placeholder={translations[language].bioPlaceholder}
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          className="bio-input"
+        />
+      </div>
+
       {/* Options de personnalisation */}
       <div className="profile-settings">
         <div className="setting-option">
-          <label>🎨 Couleur :</label>
+          <label>🎨 {translations[language].color}:</label>
           <input
             type="color"
             value={bannerColor}
-            onChange={handleColorChange}
+            onChange={(e) => setBannerColor(e.target.value)}
             className="color-picker"
           />
         </div>
         <div className="setting-option">
-          <label>📏 Forme :</label>
+          <label>📏 {translations[language].shape}:</label>
           <select
             value={bannerShape}
-            onChange={handleShapeChange}
+            onChange={(e) => setBannerShape(e.target.value)}
             className="styled-dropdown"
           >
-            <option value="rounded">Arrondi</option>
-            <option value="square">Carré</option>
+            <option value="rounded">{translations[language].rounded}</option>
+            <option value="square">{translations[language].square}</option>
           </select>
         </div>
-      </div>
-
-      {/* Informations utilisateur */}
-      <div className="profile-info">
-        <h2>👤 {username || "Utilisateur"}</h2>
-        <p>📧 {email || "Email non disponible"}</p>
+        <div className="setting-option">
+          <label>🌍 {translations[language].language}:</label>
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="styled-dropdown"
+          >
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+          </select>
+        </div>
       </div>
     </div>
   );

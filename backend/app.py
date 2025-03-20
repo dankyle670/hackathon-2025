@@ -9,7 +9,6 @@ from dotenv import load_dotenv  # ✅ Charger .env
 from config import Config  # ✅ Importer Config correctement
 from extensions import db, bcrypt, socketio
 from routes import auth
-from music_routes import music
 from socket_manager import init_socketio
 from room_routes import room_bp
 from game_routes import game_bp  # ✅ Importer les routes du jeu

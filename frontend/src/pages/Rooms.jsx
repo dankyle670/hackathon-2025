@@ -9,17 +9,17 @@ function Rooms() {
   const [rooms, setRooms] = useState([]);
   const [newRoomName, setNewRoomName] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(true);  // Ajout de l'état de chargement
+  const [error, setError] = useState(null);      // Ajout de l'état d'erreur
   const navigate = useNavigate();
 
   // 📌 Vérifier si l'utilisateur est connecté
   useEffect(() => {
-    console.log('🔍 Vérification de l\'utilisateur :', { user, token });
-
     if (!user || !token) {
       console.warn('⚠️ Aucun utilisateur trouvé, redirection...');
       navigate('/login');
     } else {
-      fetchRooms();
+      fetchRooms(); // Chargement des rooms lorsque l'utilisateur est connecté
     }
   }, [user, token, navigate]);
 
@@ -28,10 +28,12 @@ function Rooms() {
     try {
       console.log('📡 Envoi de la requête GET /api/rooms');
       const response = await getRooms();
-      console.log('✅ Réponse reçue :', response.data);
       setRooms(response.data.rooms);
+      setLoading(false);
     } catch (error) {
       console.error('❌ Erreur lors de la récupération des rooms :', error);
+      setError('Erreur lors du chargement des rooms.');
+      setLoading(false);
     }
   };
 
@@ -61,7 +63,6 @@ function Rooms() {
 
     try {
       await joinRoom(user.id, roomId);
-
       if (gameId) {
         navigate(`/game/${gameId}`); // ✅ Redirection vers la partie en cours si elle existe
       } else {
@@ -76,6 +77,10 @@ function Rooms() {
     <div className="rooms-container">
       <h1 className="rooms-title">🎭 Choisis une Room</h1>
 
+      {/* Affichage de l'état de chargement ou d'erreur */}
+      {loading && <p>Chargement des rooms...</p>}
+      {error && <p className="error-message">{error}</p>}
+
       <div className="rooms-buttons">
         {rooms.length > 0 ? (
           rooms.map(room => (
@@ -88,7 +93,7 @@ function Rooms() {
             </button>
           ))
         ) : (
-          <p>Aucune room disponible</p>
+          !loading && <p>Aucune room disponible</p>  // N'afficher ce message que si les rooms sont chargées
         )}
       </div>
 

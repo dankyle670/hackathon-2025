@@ -7,14 +7,14 @@ const Home = () => {
     <div className="home-container">
       {/* Présentation du jeu */}
       <section className="intro-section">
-        <h1 className="game-title">🎵 Bienvenue sur <span>BeatGuess</span> !</h1>
+        <h1 className="game-title">⭐️ Bienvenue sur <span>EuroMatch</span> !</h1>
         <p className="game-description">
-          Teste tes connaissances musicales en devinant le plus rapidement possible les morceaux joués. 
-          Affronte tes amis ou des joueurs du monde entier dans une ambiance fun et compétitive !
+          Teste tes connaissances sur l'Europe en répondant à des questions sur différents thèmes !
+          Défie tes amis ou des joueurs du monde entier et montre ta culture générale !
         </p>
         <div className="action-buttons">
           <Link to="/signup" className="btn primary-btn">🚀 Commencer</Link>
-          <Link to="/rooms" className="btn secondary-btn">🎮 Voir les Rooms</Link>
+          <Link to="/categories" className="btn secondary-btn">📚 Choisir une catégorie</Link>
         </div>
       </section>
 
@@ -22,19 +22,18 @@ const Home = () => {
       <section className="rules-section">
         <h2>📜 Règles du jeu</h2>
         <ul className="rules-list">
-          <li>🎶 Un extrait musical est joué.</li>
-          <li>⏳ Tu as quelques secondes pour deviner le titre ou l’artiste.</li>
-          <li>💬 Écris ta réponse dans le chat avant les autres joueurs.</li>
-          <li>🏆 Le plus rapide gagne des points.</li>
-          <li>🔀 Plusieurs rounds pour un maximum de fun !</li>
+          <li>❓ Sélectionne un ou plusieurs thèmes de questions.</li>
+          <li>⏳ Tu as quelques secondes pour répondre correctement.</li>
+          <li>🏆 Gagne des points en répondant juste et rapidement.</li>
+          <li>🌍 Défie d'autres joueurs et grimpe dans le classement !</li>
         </ul>
-        <p className="bonus-info">🔥 Rejoins une room et montre tes skills !</p>
+        <p className="bonus-info">🔥 Lance-toi et teste tes connaissances !</p>
       </section>
 
       {/* Call-to-Action final */}
       <div className="final-cta">
         <p>Prêt à jouer ?</p>
-        <Link to="/signup" className="btn primary-btn">🎧 Rejoindre une partie</Link>
+        <Link to="/signup" className="btn primary-btn">🎮 Commencer l'aventure</Link>
       </div>
     </div>
   );

@@ -39,7 +39,6 @@ export const getUserProfile = async () => {
 /**
  * 📌 Gestion des rooms
  */
-
 export const getRooms = async () => {
   return api.get("/rooms");
 };
@@ -48,13 +47,16 @@ export const getRoom = async (room_id) => {
   return api.get(`/rooms/${room_id}`);
 };
 
-
 export const createRoom = async (name, genre) => {
   return api.post("/rooms", { name, genre });
 };
 
 export const joinRoom = async (user_id, room_id) => {
   return api.post("/rooms/join", { user_id, room_id });
+};
+
+export const deleteRoom = async (room_id) => {
+  return api.delete(`/rooms/${room_id}`);
 };
 
 /**
@@ -81,6 +83,17 @@ export const getScores = async (game_id) => {
 
 export const submitAnswer = async (room_id, username, answer) => {
   return api.post("/game/submit_answer", { room_id, username, answer });
+};
+
+/**
+ * 📌 Gestion du chat en partie
+ */
+export const getMessages = async (room_id) => {
+  return api.get(`/rooms/${room_id}/messages`);
+};
+
+export const sendMessage = async (room_id, message) => {
+  return api.post(`/rooms/${room_id}/messages`, message);
 };
 
 export default api;

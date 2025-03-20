@@ -1,56 +1,113 @@
+/* 🟦 LOGIN CONTAINER */
 .login-container {
-    text-align: center;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .login-container h2 {
-    font-size: 28px;
-    color: white;
-    margin-bottom: 20px;
-  }
-  
-  .login-container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 350px;
-  }
-  
-  .login-container input {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    text-align: center;
-  }
-  
-  .login-container input:focus {
-    border-color: #ff00ff;
-    outline: none;
-    box-shadow: 0px 0px 10px #ff00ff;
-  }
-  
-  .login-container button {
-    background: #ff00ff;
-    color: white;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    width: 100%;
-  }
-  
-  .login-container button:hover {
-    background: #cc00cc;
-    box-shadow: 0px 0px 15px #ff00ff;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url("https://cdn.discordapp.com/attachments/1347498761148174408/1351576384115576923/Capture_decran_2025-03-18_a_16.21.32.png?ex=67dae119&is=67d98f99&hm=e2136c7544929d9b00986afcb3182e8da7d104c0374058ee84c8d31ebc504827&");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: yellow;
+}
+
+/* 🔑 TITRE LOGIN */
+.login-container h2 {
+  font-size: 48px;
+  font-weight: bold;
+  color: yellow;
+  text-transform: uppercase;
+  border: 3px solid purple;
+  padding: 10px 20px;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+/* 📝 FORMULAIRE */
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* 🔷 INPUTS */
+.login-container input {
+  width: 100%;
+  padding: 12px 40px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 2px solid yellow;
+  background: #002b80;
+  color: white;
+  font-size: 18px;
+  text-align: left;
+  position: relative;
+}
+
+.login-container input::placeholder {
+  color: white;
+}
+
+.login-container input:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0px 0px 10px yellow;
+}
+
+/* 🟡 ICONES INPUT */
+.input-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.input-container input {
+  padding-left: 50px;
+}
+
+.input-container .icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: yellow;
+  font-size: 22px;
+}
+
+/* 🔵 BOUTON LOGIN */
+.login-container button {
+  background: #002b80;
+  color: yellow;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid yellow;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.login-container button:hover {
+  background: yellow;
+  color: #002b80;
+  box-shadow: 0px 0px 15px yellow;
+}
+
+/* ➡️ BOUTON AVEC FLECHE */
+.login-container .submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.login-container .submit-button::after {
+  content: "➡";
+  font-size: 24px;
+  margin-left: 10px;
+}

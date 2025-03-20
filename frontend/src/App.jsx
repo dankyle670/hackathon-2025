@@ -9,7 +9,7 @@ import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Results from "./pages/Results";
-import Chat from "./pages/Chat";
+import PlayerSearchChat from "./pages/PlayerSearchChat";
 import Header from "./components/Header";
 
 /* 🎨 Importation de tous les styles */
@@ -29,7 +29,7 @@ function App() {
         <Route path="/room/:id" element={<Room />} />
         <Route path="/room/:id/genres" element={<GenreSelection />} />
         <Route path="/game/:id" element={<Game />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/search-players" element={<PlayerSearchChat />} />
         <Route path="/results" element={<Results />} />
       </Routes>
     </>
