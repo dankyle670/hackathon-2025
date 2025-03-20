@@ -59,7 +59,7 @@ export const Home: React.FC = () => {
           </button>
           <button
             className="px-6 py-3 bg-[#003399] text-white rounded-lg hover:bg-[#002266] transition-colors"
-            onClick={() => navigate('/join-room')}
+            onClick={() => navigate('/rooms')}
           >
             Rejoindre une salle
           </button>
