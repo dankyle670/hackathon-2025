@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 
 const API_URL = 'http://localhost:8080/api';
 
-// Configuration de l'instance axios
+// Configuration de l'instance axios avec intercepteur pour le token
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -11,12 +11,26 @@ const api = axios.create({
   },
 });
 
+// Intercepteur pour ajouter le token aux requêtes
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 // Configuration du socket
 let socket: Socket | null = null;
 
 export const initSocket = () => {
   if (!socket) {
-    socket = io('http://localhost:8080', { path: '/socket.io' });
+    socket = io('http://localhost:8080', {
+      path: '/socket.io',
+      auth: {
+        token: localStorage.getItem('token'),
+      },
+    });
     
     socket.on('connect', () => {
       console.log('Connecté au serveur Socket.IO');
@@ -27,6 +41,24 @@ export const initSocket = () => {
     });
   }
   return socket;
+};
+
+export const authService = {
+  login: (credentials: { email: string; password: string }) =>
+    api.post('/auth/login', credentials),
+  register: (userData: { username: string; email: string; password: string }) =>
+    api.post('/auth/register', userData),
+  getProfile: () => api.get('/auth/profile'),
+  updateProfile: (data: any) => api.put('/auth/profile', data),
+  refreshToken: () => api.post('/auth/refresh'),
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refresh_token');
+    if (socket) {
+      socket.disconnect();
+      socket = null;
+    }
+  },
 };
 
 export const gameService = {

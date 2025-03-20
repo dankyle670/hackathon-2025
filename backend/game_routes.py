@@ -101,27 +101,31 @@ def generate_question_route():
 @game_bp.route("/game/start", methods=["POST"])
 def start_game():
     data = request.get_json()
+    print("📥 Requête reçue pour démarrer une partie:", data)  # Debug
+
+    if not data:
+        print("❌ Erreur : Aucune donnée reçue.")
+        return jsonify({"error": "Données manquantes"}), 400
+
     room_id = data.get("room_id")
-    
     topic = data.get("topic")
     subtopic = data.get("subtopic", "")
     country = data.get("country")
 
-    if topic not in topics:
-        return jsonify({"error": "Invalid topic"}), 400
-    if not topics[topic]:
-        subtopic = ""
-    if country not in EUROPEAN_COUNTRIES:
-        return jsonify({"error": "Invalid country"}), 400
+    if not room_id or not topic or not country:
+        print("❌ Erreur : Données obligatoires manquantes.")
+        return jsonify({"error": "Données obligatoires manquantes"}), 400
 
+    # Vérifier si la room existe
     room = Room.query.get(room_id)
     if not room:
+        print(f"❌ Erreur : Room avec ID {room_id} introuvable.")
         return jsonify({"error": "Room introuvable"}), 404
-        return jsonify({"error": "Room not found"}), 404
 
     # Vérifier si une partie est déjà en cours
     existing_game = Game.query.filter_by(room_id=room_id, status="playing").first()
     if existing_game:
+        print("❌ Erreur : Une partie est déjà en cours dans cette salle.")
         return jsonify({"error": "Une partie est déjà en cours"}), 400
 
     # Création d'une nouvelle partie
@@ -129,7 +133,7 @@ def start_game():
     db.session.add(new_game)
     db.session.commit()
 
-    print(f"🎮 Nouvelle partie créée dans la room {room.name}")
+    print(f"✅ Nouvelle partie créée dans la room {room.name}")
 
     eventlet.spawn(start_round, new_game.id, room_id, topic, subtopic, country)
 
